@@ -30,6 +30,8 @@ ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=True
 
 COPY --from=builder /tmp/fixuid/fixuid /usr/bin/fixuid
 
+ARG CODE_RELEASE=3.5.0
+
 RUN echo "**** Setting up repositories ****" \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -65,7 +67,7 @@ RUN echo "**** Setting up repositories ****" \
         yarn \
     && npm config set python python3 \
     && echo "**** Installing Code Server ****" \
-    && yarn --production --frozen-lockfile global add code-server@3.5.0 --unsafe-perm \
+    && yarn --production --frozen-lockfile global add code-server@${CODE_RELEASE} --unsafe-perm \
     && echo "**** Cleaning up ****" \
     && apt-get purge --auto-remove -y \
         build-essential \
